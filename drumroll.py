@@ -9,10 +9,11 @@ def rolling(df):
     rowsize = intfrompath
     dfempty = pd.DataFrame(np.nan, index=np.arange(rowsize), columns=df2.columns)
     #empty dataframe with column labels same as original, number of rows equal to arg pass, filled empty
-    df2 = pd.concat([df2,dfempty], ignore_index=True, axis=0)
+    if args.top == True:
+        df2 = pd.concat([dfempty,df2], ignore_index=True, axis=0)
+    else:
+        df2 = pd.concat([df2,dfempty], ignore_index=True, axis=0)
     #merging
-    df2 = df2.iloc[::-1]
-    #reversing the dataframe
     df2.to_csv('testoutput.csv', index=False)
 
 parser = argparse.ArgumentParser(
@@ -21,6 +22,7 @@ parser = argparse.ArgumentParser(
                     epilog='Bottom text')
 parser.add_argument('filepath', type=Path)
 parser.add_argument('integer', type=int)
+parser.add_argument('-t', '--top', action='store_true')
 
 args = parser.parse_args()
 intfrompath = args.integer
