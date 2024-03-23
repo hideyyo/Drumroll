@@ -5,14 +5,15 @@ from pathlib import Path
 
 def rolling(df):
     df2 = df.copy(deep=True)
-    s1 = intfrompath
-    s2 = len(df2.columns)
-    print(f's1 is {s1} and s2 is {s2}')
-    arrhere = pd.DataFrame((np.empty((s2,s1))), columns=df.columns)
-    df2 = pd.concat([df2,arrhere], ignore_index=True)
+    # creating a copy of dataframe in case it's needed later
+    rowsize = intfrompath
+    dfempty = pd.DataFrame(np.nan, index=np.arange(rowsize), columns=df2.columns)
+    #empty dataframe with column labels same as original, number of rows equal to arg pass, filled empty
+    df2 = pd.concat([df2,dfempty], ignore_index=True, axis=0)
+    #merging
     df2 = df2.iloc[::-1]
+    #reversing the dataframe
     df2.to_csv('testoutput.csv', index=False)
-    df2.head()
 
 parser = argparse.ArgumentParser(
                     prog='Drumroll',
@@ -25,7 +26,7 @@ args = parser.parse_args()
 intfrompath = args.integer
 extentiontype = '.csv'
 filepath = args.filepath.stem + extentiontype
+#sanitizes input to allow declaration of file without extention
 
 df = pd.read_csv(filepath)
-df.head()
 rolling(df)
