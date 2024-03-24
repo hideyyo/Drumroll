@@ -14,7 +14,7 @@ def rolling(df):
     else:
         df2 = pd.concat([df2,dfempty], ignore_index=True, axis=0)
     #merging
-    df2.to_csv('testoutput.csv', index=False)
+    df2.to_csv(filepath, index=False)
 
 parser = argparse.ArgumentParser(
                     prog='Drumroll',
