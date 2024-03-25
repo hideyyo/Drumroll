@@ -3,7 +3,7 @@ import pandas as pd
 import argparse
 from pathlib import Path
 
-def rolling(df):
+def rolling(df,args,intfrompath,filepath):
     df2 = df.copy(deep=True)
     # creating a copy of dataframe in case it's needed later
     rowsize = intfrompath
@@ -16,19 +16,23 @@ def rolling(df):
     #merging
     df2.to_csv(filepath, index=False)
 
-parser = argparse.ArgumentParser(
+def main():
+    parser = argparse.ArgumentParser(
                     prog='Drumroll',
                     description='Adds empty rows at the top of csv files',
                     epilog='Bottom text')
-parser.add_argument('filepath', type=Path)
-parser.add_argument('integer', type=int)
-parser.add_argument('-t', '--top', action='store_true')
+    parser.add_argument('filepath', type=Path)
+    parser.add_argument('integer', type=int)
+    parser.add_argument('-t', '--top', action='store_true')
 
-args = parser.parse_args()
-intfrompath = args.integer
-extentiontype = '.csv'
-filepath = args.filepath.stem + extentiontype
-#sanitizes input to allow declaration of file without extention
+    args = parser.parse_args()
+    intfrompath = args.integer
+    extentiontype = '.csv'
+    filepath = args.filepath.stem + extentiontype
+#sanitizes input to allow declaration of file without extension
 
-df = pd.read_csv(filepath)
-rolling(df)
+    df = pd.read_csv(filepath)
+    rolling(df,args,intfrompath,filepath)
+
+if __name__ == "__main__":
+    main()
